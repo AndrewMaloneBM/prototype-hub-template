@@ -155,7 +155,7 @@ function navigateToSubState(pageId: string, subStateId: string) {
 
         <!-- Pages tree -->
         <div>
-          <p class="text-[10px] text-gray-600 uppercase tracking-widest mb-2">Pages</p>
+          <p class="text-[10px] text-gray-600 uppercase tracking-widest mb-2">Pages (What's New)</p>
           <div class="space-y-px max-h-[320px] overflow-y-auto pr-0.5">
             <div v-for="page in currentConcept.pages" :key="page.id">
 
