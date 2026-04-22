@@ -157,3 +157,22 @@ Claude pushes your changes to GitHub. GitHub Actions automatically builds and pu
 ## Adding a prototype
 
 Tell Claude: **"create a new prototype for [your project]"** and share your PRD. Claude will scaffold the file, help you fill in the concept data, build the shell, and deploy when you're ready.
+
+---
+
+## Tips for getting more out of Claude
+
+### Share your Figma designs
+
+You can paste a Figma link directly into Claude and it will read the design and use it to build your prototype. No need to describe what it looks like — just share the URL.
+
+> *"Here's the Figma for this concept: [link] — build it out"*
+
+You can also drag a screenshot of a Figma frame straight into the Claude Code window and it will use that as a reference.
+
+### Use Dust for context
+
+If you have research, product context, or past decisions in [Dust](https://dust.tt), ask Dust first to pull together the relevant background — then paste it into Claude as part of your brief. This gives Claude the "why" behind what you're building, which leads to much better prototypes.
+
+> **In Dust:** *"Summarise the seller payments problem and what we've tried so far"*
+> **Then in Claude:** *"Here's the context: [paste]. Now build me a prototype for..."*
