@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* BM font faces — swap for actual licensed files when available */
+  body {
+    @apply font-body text-bm-black bg-bm-gray-50 antialiased;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  /* Revolve-aligned base button */
+  .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-bm text-sm font-body font-medium transition-colors;
+  }
+  .btn-primary {
+    @apply btn bg-bm-text-hi text-white hover:bg-bm-gray-700;
+  }
+  .btn-secondary {
+    @apply btn border border-bm-border-action bg-white text-bm-text-hi hover:bg-bm-gray-100;
+  }
+  .btn-danger {
+    @apply btn bg-bm-danger text-white hover:opacity-90;
+  }
+
+  /* Back office card */
+  .card {
+    @apply bg-white rounded-bm-lg border border-bm-border shadow-sm;
+  }
+
+  /* Status badges */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-bm-xs text-xs font-medium;
+  }
+  .badge-green   { @apply badge bg-bm-green-100 text-bm-green-700; }
+  .badge-red     { @apply badge bg-red-100 text-red-700; }
+  .badge-yellow  { @apply badge bg-amber-100 text-amber-700; }
+  .badge-gray    { @apply badge bg-bm-gray-100 text-bm-gray-700; }
+}

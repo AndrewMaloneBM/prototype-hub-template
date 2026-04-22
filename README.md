@@ -1,0 +1,122 @@
+# Prototype Hub
+
+A code-based prototyping workspace for product designers. Build and share interactive Back Market prototypes — no coding required.
+
+> This setup takes about 10 minutes and only happens once. After that, you just talk to Claude.
+
+---
+
+## Before you start — install the tools
+
+You need three things on your Mac before you can use this. If you've done this before, skip ahead.
+
+---
+
+### 1. A GitHub account
+
+GitHub is where this template lives. You need a free account to make your own copy.
+
+→ Go to [github.com/signup](https://github.com/signup) and create a free account if you don't have one.
+
+---
+
+### 2. Node.js
+
+Node.js lets you install developer tools like Claude Code. You probably don't have it unless someone set it up for you.
+
+→ Go to [nodejs.org](https://nodejs.org), click the big **"Download Node.js (LTS)"** button, open the file that downloads, and follow the installer. Click through all the defaults.
+
+---
+
+### 3. Claude Code
+
+Claude Code is the AI assistant that runs everything in this hub. You install it once from the Terminal.
+
+**How to open Terminal on a Mac:**
+Press `Cmd + Space`, type `Terminal`, and press `Enter`. A black or white window will appear — that's the Terminal.
+
+**Check if you already have Claude Code** — paste this into Terminal and press Enter:
+```
+claude --version
+```
+- If you see a version number (like `1.2.3`) → you already have it, move on to Setup below.
+- If you see an error → run this to install it:
+
+```
+npm install -g @anthropic-ai/claude-code
+```
+
+Wait for it to finish (it takes 30–60 seconds), then move on.
+
+---
+
+## Setup — do this once
+
+### Step 1 — Create your own copy of the hub
+
+1. At the top of this page on GitHub, click the green **"Use this template"** button
+2. In the dropdown, click **"Create a new repository"**
+3. Give it a name — something like `seller-xp-hub` or `design-prototypes`
+4. Leave everything else as default and click **"Create repository"**
+
+You now have your own copy of the hub on GitHub.
+
+---
+
+### Step 2 — Download it to your Mac
+
+1. On your new repository page, click the green **"Code"** button
+2. Make sure **"HTTPS"** is selected in the tab at the top of the dropdown
+3. Click the **copy icon** next to the URL to copy it
+4. Open Terminal and paste the following, replacing `PASTE_URL_HERE` with the URL you just copied:
+
+```
+git clone PASTE_URL_HERE
+```
+
+Press Enter and wait a few seconds. This downloads the project to your Mac.
+
+---
+
+### Step 3 — Open it with Claude Code
+
+In Terminal, paste these two lines one at a time, pressing Enter after each:
+
+```
+cd prototype-hub
+```
+```
+claude
+```
+
+Claude Code will open inside the Terminal window.
+
+---
+
+### Step 4 — Tell Claude to set everything up
+
+Type the following and press Enter:
+
+```
+set me up
+```
+
+Claude will ask for your name and your team name. Answer those two questions, then sit back — it handles everything else from there (installing dependencies, configuring the hub, and deploying it live).
+
+**You won't need to touch the terminal again after this.**
+
+---
+
+## Daily use
+
+Each time you want to work, open Terminal, navigate to your project folder, and run `claude`. Then just ask for what you need:
+
+- *"Start the dev server"*
+- *"Create a new prototype called payments-redesign"*
+- *"Deploy"*
+
+---
+
+## Adding a prototype
+
+Tell Claude: **"create a new prototype for [your project]"** and share your PRD. Claude will scaffold the file, help you fill in the concept data, build the shell, and deploy when you're ready.
