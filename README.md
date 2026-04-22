@@ -22,18 +22,46 @@ GitHub is where this template lives. You need a free account to make your own co
 
 ### 2. Node.js
 
-Node.js lets you install developer tools like Claude Code. You probably don't have it unless someone set it up for you.
+Node.js lets you install developer tools like Claude Code.
 
-→ Go to [nodejs.org](https://nodejs.org), click the big **"Download Node.js (LTS)"** button, open the file that downloads, and follow the installer. Click through all the defaults.
+**First, open Terminal on your Mac:**
+Press `Cmd + Space`, type `Terminal`, and press `Enter`. A black or white window will appear — that's the Terminal. Keep it open for the rest of the setup.
+
+**Check if you already have Node.js** — paste this into Terminal and press Enter:
+```
+node --version
+```
+- You see a version number like `v20.11.0` → you already have it, skip to section 3.
+- You see `command not found` → install it below.
+
+**Install Node.js:**
+
+Check if you have Homebrew (the standard Mac package installer):
+```
+brew --version
+```
+
+- You see a version number → run this to install Node.js:
+```
+brew install node
+```
+
+- You see `command not found` → install Homebrew first by pasting this into Terminal and pressing Enter:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+It will ask for your Mac password at one point — this is normal, type it and press Enter. When it's done, install Node.js:
+```
+brew install node
+```
+
+Once it finishes, run `node --version` to confirm it worked. You should see a version number.
 
 ---
 
 ### 3. Claude Code
 
 Claude Code is the AI assistant that runs everything in this hub. You install it once from the Terminal.
-
-**How to open Terminal on a Mac:**
-Press `Cmd + Space`, type `Terminal`, and press `Enter`. A black or white window will appear — that's the Terminal.
 
 **Check if you already have Claude Code** — paste this into Terminal and press Enter:
 ```
