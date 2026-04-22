@@ -150,7 +150,7 @@ Share your PRD or brief and Claude will build it out.
 **When you're ready to share:**
 > *"Deploy"*
 
-Claude will push your changes live and give you a URL to share with your team. Do this whenever you want others to see your latest work.
+Claude pushes your changes to GitHub. GitHub Actions automatically builds and publishes your hub to GitHub Pages — usually live within a minute. Your hub URL stays the same every time: `https://[your-username].github.io/[your-repo-name]/`. Share that link with your team.
 
 ---
 

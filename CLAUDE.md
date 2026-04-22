@@ -13,9 +13,17 @@ Say something like: "Looks like this is a fresh setup — I'll get your hub conf
 1. Ask for their name and their team name — nothing else, keep it short
 2. Patch `app/app.config.ts`: replace `__TEAM_NAME__`, `__DESIGNER_NAME__`, `__TEAM_SLUG__` (slug = team name lowercased, spaces → hyphens)
 3. Run `npm install` automatically — tell them you're doing it, don't ask
-4. Run `npm run build` to verify everything compiles
-5. Ask: "Ready to deploy? I'll get your hub live now." Then run `vercel --prod`
-6. Share the live URL and tell them they can start adding prototypes
+4. Run `npm run generate` to verify the static build works
+5. Enable GitHub Pages for the repo using the `gh` CLI:
+   ```bash
+   gh api repos/{owner}/{repo}/pages --method POST --field build_type=workflow
+   ```
+   If that returns an error because Pages already exists, run the same call with `--method PUT` instead to update the existing configuration.
+6. Commit and push the setup:
+   ```bash
+   git add -A && git commit -m "Initial setup" && git push
+   ```
+7. Fetch the live URL from `gh api repos/{owner}/{repo}/pages` and read the `html_url` field. Tell the user: "Your hub is deploying now — it'll be live at `<html_url>` in about a minute." (GitHub Actions handles the build and deploy automatically on every push to `main`.)
 
 The user should not need to touch the terminal at any point. You run all commands. They just answer two questions and watch it happen.
 
@@ -23,7 +31,7 @@ The user should not need to touch the terminal at any point. You run all command
 
 ## Who & Why
 
-A code-based prototyping workspace for product designers. Build and share interactive, high-fidelity prototypes without waiting on engineering. Prototypes are deployed to a shared Vercel URL and updated in seconds.
+A code-based prototyping workspace for product designers. Build and share interactive, high-fidelity prototypes without waiting on engineering. Prototypes are deployed to a shared GitHub Pages URL (`https://[username].github.io/[repo-name]/`) and updated in seconds — just commit and push, GitHub Actions handles the rest.
 
 ---
 
@@ -35,7 +43,8 @@ A code-based prototyping workspace for product designers. Build and share intera
 | Styling | Tailwind CSS via `@nuxtjs/tailwindcss` |
 | Design system | Back Market Revolve tokens (in `tailwind.config.ts`) |
 | Dev server | `npm run dev` — runs on port 3030 |
-| Deployment | Vercel (`vercel --prod`) |
+| Static build | `npm run generate` — outputs to `.output/public` |
+| Deployment | GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) — triggered on push to `main` |
 
 **Key config files:**
 - `app/app.config.ts` — team name, designer name, slug (configured during setup)
@@ -87,6 +96,18 @@ scripts/
 
 ---
 
+## Daily use
+
+When the user asks you to deploy, ship, or share their latest changes, run:
+
+```bash
+git add -A && git commit -m "Update prototypes" && git push
+```
+
+That's it — GitHub Actions picks up the push to `main`, runs `npm run generate`, and publishes `.output/public` to GitHub Pages automatically. No Vercel, no extra CLIs. The live URL stays at `https://[username].github.io/[repo-name]/`. If the user wants to watch the deploy, you can tail it with `gh run watch` or `gh run list --workflow=deploy.yml`.
+
+---
+
 ## Adding a prototype
 
 When a user asks to create a new prototype or shares a PRD, take the lead:
@@ -95,7 +116,7 @@ When a user asks to create a new prototype or shares a PRD, take the lead:
 2. Read the PRD (or ask them to paste it) and populate `conceptMeta[]` — concept names, pros, cons, success metrics, which pages each concept touches
 3. Build the shell using `<BmShell>` and wire up `<PrototypeSidebar>` with the concept data
 4. Register it in `app/pages/index.vue` → `inProgress` array
-5. Run `vercel --prod` and share the URL
+5. Commit and push with `git add -A && git commit -m "Add [prototype-name]" && git push` — GitHub Actions deploys it
 
 The user should never need to know which commands to run. They share context (PRD, screenshots, goals) and you handle execution.
 
