@@ -106,7 +106,9 @@ Press Enter and wait a few seconds. This downloads the project to your Mac.
 
 ### Step 3 — Open it with Claude Code
 
-In Terminal, type `cd ` (with a space after it), then open Finder, find the folder you just cloned, and drag it into the Terminal window — it will fill in the path automatically. Press Enter.
+When you ran `git clone` in the previous step, it downloaded a copy of your repo as a folder on your Mac. You can find it in Finder — it will be in your home folder (the one with your name on it) and named after your repo.
+
+In Terminal, type `cd ` (with a space after it), then drag that folder from Finder into the Terminal window — it will fill in the path automatically. Press Enter.
 
 Then run:
 ```
