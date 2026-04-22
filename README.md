@@ -14,9 +14,7 @@ You need three things on your Mac before you can use this. If you've done this b
 
 ### 1. A GitHub account
 
-GitHub is where this template lives. You need a free account to make your own copy.
-
-→ Go to [github.com/signup](https://github.com/signup) and create a free account if you don't have one.
+You need a GitHub account to use this template. If you don't have one, [sign up here](https://github.com/signup) — it's free.
 
 ---
 
