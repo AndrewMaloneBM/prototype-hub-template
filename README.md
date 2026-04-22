@@ -82,7 +82,7 @@ Wait for it to finish (it takes 30–60 seconds), then move on.
 
 1. At the top of this page on GitHub, click the green **"Use this template"** button
 2. In the dropdown, click **"Create a new repository"**
-3. Give it a name — something like `seller-xp-hub` or `design-prototypes`
+3. Give it a name — something like `[your team]-hub` or `design-prototypes`
 4. Leave everything else as default and click **"Create repository"**
 
 You now have your own copy of the hub on GitHub.
