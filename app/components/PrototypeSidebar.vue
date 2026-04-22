@@ -8,6 +8,7 @@ const props = defineProps<{
   previewMode: PreviewMode
   sidebarOpen: boolean
   activePageId: string
+  activeSubStateId?: string
 }>()
 
 const emit = defineEmits<{
@@ -15,6 +16,7 @@ const emit = defineEmits<{
   'update:previewMode': [value: PreviewMode]
   'update:sidebarOpen': [value: boolean]
   'update:activePageId': [value: string]
+  'setSubState': [pageId: string, subStateId: string]
   'reset': []
 }>()
 
@@ -34,6 +36,45 @@ const currentConcept = computed(() => {
   if (!c) throw new Error('PrototypeSidebar requires at least one concept')
   return c
 })
+
+// Accordion state — which page IDs are currently expanded
+const expandedPageIds = ref<string[]>([props.activePageId])
+
+// Auto-expand when active page changes (e.g. user navigates)
+watch(() => props.activePageId, (id) => {
+  if (id && !expandedPageIds.value.includes(id)) {
+    expandedPageIds.value = [...expandedPageIds.value, id]
+  }
+})
+
+// Reset accordion when switching concept — expand only the new first page
+watch(() => props.activeConcept, () => {
+  nextTick(() => {
+    expandedPageIds.value = [props.activePageId]
+  })
+})
+
+function toggleExpanded(pageId: string) {
+  if (expandedPageIds.value.includes(pageId)) {
+    expandedPageIds.value = expandedPageIds.value.filter(id => id !== pageId)
+  } else {
+    expandedPageIds.value = [...expandedPageIds.value, pageId]
+  }
+}
+
+function navigateTo(pageId: string) {
+  emit('update:activePageId', pageId)
+  if (!expandedPageIds.value.includes(pageId)) {
+    expandedPageIds.value = [...expandedPageIds.value, pageId]
+  }
+}
+
+function navigateToSubState(pageId: string, subStateId: string) {
+  if (!expandedPageIds.value.includes(pageId)) {
+    expandedPageIds.value = [...expandedPageIds.value, pageId]
+  }
+  emit('setSubState', pageId, subStateId)
+}
 </script>
 
 <template>
@@ -112,22 +153,60 @@ const currentConcept = computed(() => {
           </div>
         </div>
 
-        <!-- Pages -->
+        <!-- Pages tree -->
         <div>
           <p class="text-[10px] text-gray-600 uppercase tracking-widest mb-2">Pages</p>
-          <div class="flex flex-wrap gap-1.5">
-            <button
-              v-for="page in currentConcept.pages"
-              :key="page.id"
-              :class="[
-                'flex items-center gap-1 text-xs px-2.5 py-1 rounded transition-colors',
-                activePageId === page.id ? 'bg-white/10 text-white font-medium' : 'text-gray-500 hover:text-gray-300'
-              ]"
-              @click="emit('update:activePageId', page.id)"
-            >
-              <span :class="['w-1.5 h-1.5 rounded-full', activePageId === page.id ? 'bg-green-400' : 'bg-gray-700']" />
-              {{ page.label }}
-            </button>
+          <div class="space-y-px max-h-[320px] overflow-y-auto pr-0.5">
+            <div v-for="page in currentConcept.pages" :key="page.id">
+
+              <!-- Simple page (no sub-states): direct nav -->
+              <template v-if="!page.subStates?.length">
+                <button
+                  :class="[
+                    'w-full flex items-center gap-2 rounded px-2 py-1.5 transition-colors text-left',
+                    activePageId === page.id ? 'bg-white/10 text-white' : 'text-gray-500 hover:text-gray-300 hover:bg-gray-800/60'
+                  ]"
+                  @click="navigateTo(page.id)"
+                >
+                  <span :class="['w-1.5 h-1.5 rounded-full flex-shrink-0', activePageId === page.id ? 'bg-green-400' : 'bg-gray-700']" />
+                  <span :class="['text-xs', activePageId === page.id ? 'font-medium' : '']">{{ page.label }}</span>
+                </button>
+              </template>
+
+              <!-- Page with sub-states: accordion header + navigable sub-items -->
+              <template v-else>
+                <div :class="['flex items-center gap-2 rounded px-2 py-1.5 transition-colors', activePageId === page.id ? 'text-white' : 'text-gray-500 hover:text-gray-300']">
+                  <button class="flex items-center gap-2 flex-1 min-w-0 text-left" @click="navigateTo(page.id)">
+                    <span :class="['w-1.5 h-1.5 rounded-full flex-shrink-0', activePageId === page.id ? 'bg-green-400' : 'bg-gray-700']" />
+                    <span :class="['text-xs truncate', activePageId === page.id ? 'font-medium' : '']">{{ page.label }}</span>
+                  </button>
+                  <button class="flex-shrink-0 p-0.5 text-gray-700 hover:text-gray-400 transition-colors" @click="toggleExpanded(page.id)">
+                    <svg class="w-3 h-3 transition-transform duration-150" :class="expandedPageIds.includes(page.id) ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Sub-state items -->
+                <div v-if="expandedPageIds.includes(page.id)" class="ml-4 mt-px mb-1 space-y-px">
+                  <button
+                    v-for="sub in page.subStates"
+                    :key="sub.id"
+                    :class="[
+                      'w-full text-left flex items-center gap-2 px-2 py-1 rounded transition-colors',
+                      activeSubStateId === sub.id
+                        ? 'bg-white/10 text-white'
+                        : 'text-gray-500 hover:text-gray-300 hover:bg-gray-800/60'
+                    ]"
+                    @click="navigateToSubState(page.id, sub.id)"
+                  >
+                    <span :class="['w-1 h-1 rounded-full flex-shrink-0', activeSubStateId === sub.id ? 'bg-green-400' : 'bg-gray-700']" />
+                    <span class="text-[11px]">{{ sub.label }}</span>
+                  </button>
+                </div>
+              </template>
+
+            </div>
           </div>
         </div>
 

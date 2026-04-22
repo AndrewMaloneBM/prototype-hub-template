@@ -171,9 +171,30 @@ The dark left panel. Pass `conceptMeta[]` and v-model the active state:
   prdMetric: string
   pros: string[]
   cons: string[]
-  pages: { id: string; label: string; navItem: string; changes: string[] }[]
+  pages: { id: string; label: string; navItem: string; changes: string[]; subStates?: { id: string; label: string }[] }[]
 }
 ```
+
+### Pages — sub-states
+
+Each page in `conceptMeta` can optionally define `subStates`. Rules:
+
+**When to add sub-states:**
+- The page has multiple distinct UI states worth navigating to directly (e.g. a modal at step 2 of 4, a slide-in panel, an "applied" status screen, a different content state)
+- A reviewer would benefit from jumping straight to that state without having to click through the prototype
+
+**When NOT to add sub-states:**
+- The page has only one meaningful view — just show the page itself
+- The variation is too minor to be worth naming (e.g. a hover state, a tooltip)
+
+**Naming conventions:**
+- `id`: kebab-case, unique within the prototype — e.g. `step-2`, `home-applied`, `panel-open`
+- `label`: short and descriptive, shown in the sidebar — e.g. `"Step 2 · Financing partner"`, `"Applied — status strip"`
+
+**Wiring pattern (required):**
+- Pass `:active-sub-state-id="activeSubStateId"` to `<PrototypeSidebar>` — this is always a `computed`, never a plain `ref`. It derives its value from your prototype's own reactive state so the sidebar stays in sync whether the user clicks the sidebar or interacts with the prototype directly.
+- Handle `@set-sub-state="onSetSubState"` — reset transient UI, then set the reactive state that corresponds to the requested sub-state.
+- Never use `<Teleport to="body">` for modals. Place them as `absolute inset-0` siblings of the inner scroll div, inside a `relative overflow-hidden` wrapper. See `_template.vue` for the exact structure.
 
 ---
 

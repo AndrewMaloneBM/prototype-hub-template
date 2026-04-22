@@ -3,11 +3,17 @@ import { useRoute } from 'vue-router'
 
 export type PreviewMode = 'before' | 'after'
 
+export interface PrototypeSubState {
+  id: string
+  label: string
+}
+
 export interface PrototypePage {
   id: string
   label: string
   navItem: string
   changes: string[]
+  subStates?: PrototypeSubState[]
 }
 
 export interface PrototypeConcept {
@@ -54,7 +60,6 @@ export function usePrototypeSidebar(conceptMeta: readonly PrototypeConcept[]) {
     })
   }
 
-  // When switching back to 'before', drop any after-only sub-tabs (e.g. concept 2 "Daily payout")
   watch(previewMode, (mode) => {
     if (mode !== 'before') return
     conceptTabs.value = conceptTabs.value.map(tab =>
