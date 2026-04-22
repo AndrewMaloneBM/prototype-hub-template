@@ -135,11 +135,22 @@ Claude will ask for your name and your team name. Answer those two questions, th
 
 ## Daily use
 
-Each time you want to work, open Terminal, navigate to your project folder, and run `claude`. Then just ask for what you need:
+Each time you want to work, open Terminal, drag your project folder in, run `claude`, and then just tell Claude what you need.
 
-- *"Start the dev server"*
-- *"Create a new prototype called payments-redesign"*
-- *"Deploy"*
+**Starting a session:**
+> *"Start the dev server"*
+
+This opens a local preview of your hub in the browser so you can see changes as you make them.
+
+**Creating a new prototype:**
+> *"Create a new prototype called payments-redesign"*
+
+Share your PRD or brief and Claude will build it out.
+
+**When you're ready to share:**
+> *"Deploy"*
+
+Claude will push your changes live and give you a URL to share with your team. Do this whenever you want others to see your latest work.
 
 ---
 
