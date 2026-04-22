@@ -106,11 +106,9 @@ Press Enter and wait a few seconds. This downloads the project to your Mac.
 
 ### Step 3 — Open it with Claude Code
 
-In Terminal, paste these two lines one at a time, pressing Enter after each:
+In Terminal, type `cd ` (with a space after it), then open Finder, find the folder you just cloned, and drag it into the Terminal window — it will fill in the path automatically. Press Enter.
 
-```
-cd prototype-hub
-```
+Then run:
 ```
 claude
 ```
