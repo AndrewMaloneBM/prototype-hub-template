@@ -160,6 +160,58 @@ Tell Claude: **"create a new prototype for [your project]"** and share your PRD.
 
 ---
 
+## Working with concepts
+
+A prototype can have any number of concepts — 1, 2, 3, or more. Each concept represents a different design approach being explored in parallel.
+
+### How it works
+
+- The `conceptMeta` array in your prototype file defines the concepts. The sidebar generates numbered pills (1, 2, 3…) automatically from this array — you don't configure the sidebar separately.
+- For each concept in `conceptMeta`, you add one matching `<div v-show="activeConcept === N">` block in the template where you build that concept's screens.
+- Each concept tracks its own active page independently — switching concepts preserves your place on each one.
+
+### Adding a concept
+
+**Step 1 — Add an entry to `conceptMeta[]`:**
+
+```ts
+{
+  name: 'Concept B',
+  prdFeature: 'PRD 1.2 — Feature name',
+  prdMetric: 'Describe the success metric for this concept.',
+  pros: ['Why this approach works'],
+  cons: ['What it trades off'],
+  pages: [
+    {
+      id: 'home',
+      label: 'Home',
+      navItem: 'Home',
+      changes: ['What changed on this page for this concept'],
+    },
+  ],
+}
+```
+
+**Step 2 — Add a matching content block in the template:**
+
+```vue
+<div v-show="activeConcept === 2">
+  <!-- Concept 2 screens go here -->
+</div>
+```
+
+That's it. The sidebar, page navigation, Before/After toggle, and reset button all update automatically.
+
+### How many concepts should I define?
+
+Only as many as your PRD requires. Most prototypes have 2–3. There's no minimum or maximum — start with 1 if you're exploring a single direction, add more as alternatives emerge.
+
+### Sub-states (optional)
+
+If a page has multiple distinct UI states worth jumping to directly from the sidebar — for example, a modal open at step 3, a slide-in panel, or an "applied" status screen — you can define sub-states on that page. The full pattern is explained in the inline comments inside `_template.vue`.
+
+---
+
 ## Tips for getting more out of Claude
 
 ### Share your Figma designs
