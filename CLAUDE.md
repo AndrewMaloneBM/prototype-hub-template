@@ -14,16 +14,17 @@ Say something like: "Looks like this is a fresh setup — I'll get your hub conf
 2. Patch `app/app.config.ts`: replace `__TEAM_NAME__`, `__DESIGNER_NAME__`, `__TEAM_SLUG__` (slug = team name lowercased, spaces → hyphens)
 3. Run `npm install` automatically — tell them you're doing it, don't ask
 4. Run `npm run generate` to verify the static build works
-5. Enable GitHub Pages for the repo using the `gh` CLI:
+5. Check if `gh` is authenticated by running `gh auth status`. If it returns an error, run `gh auth login` and tell the user: "GitHub needs to verify your account — a one-time code and URL will appear below. Open the URL, enter the code, and come back here." Wait for auth to complete before continuing.
+6. Enable GitHub Pages for the repo using the `gh` CLI:
    ```bash
    gh api repos/{owner}/{repo}/pages --method POST --field build_type=workflow
    ```
    If that returns an error because Pages already exists, run the same call with `--method PUT` instead to update the existing configuration.
-6. Commit and push the setup:
+7. Commit and push the setup:
    ```bash
    git add -A && git commit -m "Initial setup" && git push
    ```
-7. Fetch the live URL from `gh api repos/{owner}/{repo}/pages` and read the `html_url` field. Tell the user: "Your hub is deploying now — it'll be live at `<html_url>` in about a minute." (GitHub Actions handles the build and deploy automatically on every push to `main`.)
+8. Fetch the live URL from `gh api repos/{owner}/{repo}/pages` and read the `html_url` field. Tell the user: "Your hub is deploying now — it'll be live at `<html_url>` in about a minute." (GitHub Actions handles the build and deploy automatically on every push to `main`.)
 
 The user should not need to touch the terminal at any point. You run all commands. They just answer two questions and watch it happen.
 

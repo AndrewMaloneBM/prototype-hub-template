@@ -48,7 +48,7 @@ brew install node
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-It will ask for your Mac password at one point — this is normal, type it and press Enter. When it's done, install Node.js:
+It will ask for your Mac password **multiple times** during installation — this is normal. Type it each time and press Enter (you won't see the characters appear, that's fine). When it's done, install Node.js:
 ```
 brew install node
 ```
@@ -128,6 +128,14 @@ set me up
 ```
 
 Claude will ask for your name and your team name. Answer those two questions, then sit back — it handles everything else from there (installing dependencies, configuring the hub, and deploying it live).
+
+**At some point during setup, Claude will need to connect to your GitHub account.** It will run a command that shows you:
+- A **one-time code** (8 characters, like `XXXX-XXXX`)
+- A **URL** to open in your browser
+
+Open the URL, paste the code, and approve the connection. Then come back to Terminal — Claude will carry on automatically.
+
+> **If the code or URL appear blank:** Type `gh auth login` into the terminal and press Enter. This restarts the GitHub connection step manually. Follow the prompts — choose "GitHub.com", then "HTTPS", then "Login with a web browser".
 
 **You won't need to touch the terminal again after this.**
 
