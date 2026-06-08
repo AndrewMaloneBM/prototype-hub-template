@@ -7,7 +7,7 @@ import { dirname, resolve } from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
-const configPath = resolve(root, 'app.config.ts')
+const configPath = resolve(root, 'app/app.config.ts')
 
 const config = readFileSync(configPath, 'utf8')
 
@@ -41,20 +41,21 @@ if (!existsSync(resolve(root, 'node_modules'))) {
   execSync('npm install', { cwd: root, stdio: 'inherit' })
 }
 
-const rl2 = createInterface({ input: process.stdin, output: process.stdout })
-const ask2 = (q) => new Promise(res => rl2.question(q, res))
+console.log(`
+Setup complete.
 
-const deploy = (await ask2('\nDeploy to Vercel now? (y/n): ')).trim().toLowerCase()
-rl2.close()
+This hub deploys to GitHub Pages automatically via GitHub Actions —
+every push to main is built and published. To go live:
 
-if (deploy === 'y') {
-  try {
-    execSync('vercel --prod', { cwd: root, stdio: 'inherit' })
-  } catch {
-    console.log('\nVercel CLI not found. Run: npm i -g vercel, then: vercel --prod')
-  }
-} else {
-  console.log('\nWhen ready: vercel --prod')
-}
+  1. Enable GitHub Pages (one time):
+       gh api repos/{owner}/{repo}/pages --method POST --field build_type=workflow
+     (if Pages already exists, rerun with --method PUT)
 
-console.log('\nDone. Run npm run dev to start locally.')
+  2. Commit and push:
+       git add -A && git commit -m "Initial setup" && git push
+
+  3. GitHub Actions builds and publishes on every push to main.
+     Your hub will be live at https://<username>.github.io/<repo-name>/
+
+Run npm run dev to start locally.
+`)
