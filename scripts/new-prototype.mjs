@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Usage: npm run new-prototype -- "my-prototype-name"
-import { writeFileSync, existsSync } from 'fs'
-import { join, dirname } from 'path'
+import { writeFileSync, readFileSync, existsSync } from 'fs'
+import { join, dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -11,6 +11,15 @@ if (!name) {
   console.error('Usage: npm run new-prototype -- <prototype-name>')
   process.exit(1)
 }
+
+// Pull the designer name from the hub config so prototypes are authored
+// by whoever set up the hub — never hardcoded.
+let author = ''
+try {
+  const cfg = readFileSync(resolve(__dirname, '../app/app.config.ts'), 'utf8')
+  const m = cfg.match(/designerName:\s*['"]([^'"]*)['"]/)
+  if (m && m[1] && m[1] !== '__DESIGNER_NAME__') author = m[1]
+} catch {}
 
 const slug = name.toLowerCase().replace(/\s+/g, '-')
 const title = name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
@@ -26,9 +35,9 @@ const content = `<script setup lang="ts">
 const meta = {
   title: '${title}',
   description: '',
-  author: 'Andrew Malone',
+  author: '${author}',
   date: '${date}',
-  status: 'draft' as 'draft' | 'review' | 'done',
+  status: 'In progress' as 'In progress' | 'Complete projects' | 'Backlog',
 }
 </script>
 
