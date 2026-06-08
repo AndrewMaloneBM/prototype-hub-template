@@ -256,6 +256,31 @@ The scaffold is a working reference, not a skeleton. These patterns recurred acr
 
 ---
 
+## Optional recipe: internal vs shared views
+
+If you want a clean external link that hides the internal hub chrome (for stakeholder reviews), pair `PrototypeSidebar`'s `share-mode` prop with a `/share/<name>` route, and optionally gate the internal hub behind a cookie. This is a recipe, not a built-in — add it only when a prototype needs it.
+
+```vue
+<!-- app/pages/unlock.vue — soft cookie gate -->
+<script setup lang="ts">
+definePageMeta({ layout: false })
+const SECRET = 'pick-a-passphrase'
+const route = useRoute()
+const cookie = useCookie('hub_access', { maxAge: 60 * 60 * 24 * 30 })
+if (route.query.key === SECRET) {
+  cookie.value = 'true'
+  await navigateTo('/')
+} else {
+  await navigateTo('/share/<your-prototype>')  // public fallback
+}
+</script>
+<template><div /></template>
+```
+
+Note: this is obfuscation for prototypes, not real security (the secret ships in the static bundle). Don't put anything sensitive behind it. Remember to add the `/share/...` route to `nitro.prerender.routes` in `nuxt.config.ts` so it exists in the static build.
+
+---
+
 ## Key Decisions & Conventions
 
 - `definePageMeta({ layout: false })` on all prototype pages

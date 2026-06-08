@@ -39,7 +39,27 @@ interface Prototype {
   accent: string
 }
 
-const inProgress: Prototype[] = []
+const inProgress: Prototype[] = [
+  // Example entry — delete this and add your own (or run `npm run new-prototype`,
+  // which prints a ready-to-paste snippet). `accent` is the card's hex strip colour.
+  // {
+  //   title: 'Payout acceleration',
+  //   description: 'Exploring how sellers opt into faster payouts from the Money tab.',
+  //   problemStatement: 'Sellers wait D+7 for funds; can we surface a D+1 option in context?',
+  //   author: 'Your Name',
+  //   date: '2026-06-08',
+  //   status: 'In progress',
+  //   concepts: [
+  //     { n: 1, name: 'Inline banner', pages: ['Home', 'Money'] },
+  //     { n: 2, name: 'Dedicated tab', pages: ['Money'] },
+  //   ],
+  //   scope: 'Seller back-office',
+  //   goal: 'Increase opt-in to faster payouts',
+  //   impact: 'Faster cash flow for sellers',
+  //   link: '/prototypes/payout-acceleration',
+  //   accent: '#1A8E5F',
+  // },
+]
 
 const shipped: Prototype[] = []
 

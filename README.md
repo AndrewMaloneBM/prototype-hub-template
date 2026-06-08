@@ -220,6 +220,18 @@ If a page has multiple distinct UI states worth jumping to directly from the sid
 
 ---
 
+## Sharing with stakeholders
+
+Every prototype is live on your hub URL the moment you deploy — just send the link.
+
+For a cleaner, external-facing view that hides the internal design controls (concept pros/cons, the hub navigation), ask Claude for a **"share view"**. It can set the sidebar to share mode and, if you want, set up a tidy `/share/...` link and a light password gate so only people with the link get in.
+
+> *"Set up a clean share link for this prototype I can send to the PM"*
+
+It's fine for previews, but it isn't real security — don't put anything confidential in a prototype.
+
+---
+
 ## Tips for getting more out of Claude
 
 ### Share your Figma designs
