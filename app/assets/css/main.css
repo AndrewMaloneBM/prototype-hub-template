@@ -1,15 +1,69 @@
+/* Revolve fonts — self-hosted (files in public/fonts/) */
+@font-face {
+  font-family: 'BMDupletTXT';
+  src: url('/fonts/BMDupletTXT-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BMDupletTXT';
+  src: url('/fonts/BMDupletTXT-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BMDupletTXT';
+  src: url('/fonts/BMDupletTXT-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BMDupletTXT';
+  src: url('/fonts/BMDupletTXT-SemiboldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BMDupletDSP';
+  src: url('/fonts/BMDupletDSP-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IvarSoft';
+  src: url('/fonts/IvarSoft-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IvarSoft';
+  src: url('/fonts/IvarSoft-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* BM font faces — swap for actual licensed files when available */
   body {
     @apply font-body text-bm-black bg-bm-gray-50 antialiased;
   }
 
-  h1, h2, h3 {
-    @apply font-display;
+  h1 {
+    @apply font-heading-primary;
+  }
+
+  h2, h3 {
+    @apply font-heading-secondary;
   }
 }
 

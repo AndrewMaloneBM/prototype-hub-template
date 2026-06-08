@@ -52,8 +52,10 @@ export default {
         'bm-info':    'hsl(219, 27%, 40%)',  // functional.info.40
       },
       fontFamily: {
-        display: ['GT Super Display', 'Georgia', 'serif'],
-        body:    ['Scto Grotesk A', 'Inter', 'sans-serif'],
+        // Real Revolve fonts — self-hosted via @font-face in app/assets/css/main.css
+        'heading-primary':   ['IvarSoft', 'Georgia', 'serif'],        // h1 / hero headings
+        'heading-secondary': ['BMDupletDSP', 'HelveticaDSP', 'sans-serif'], // h2 / h3
+        body:                ['BMDupletTXT', 'HelveticaTXT', 'sans-serif'], // body / UI (default)
       },
       borderRadius: {
         'bm-xs': '2px',   // radius.xs — badges, tiny elements

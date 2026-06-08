@@ -7,7 +7,7 @@ const { hub } = useAppConfig()
     <!-- Back office top nav -->
     <header class="bg-bm-black border-b border-bm-gray-800 px-6 py-3 flex items-center gap-6">
       <NuxtLink to="/" class="flex items-center gap-2">
-        <span class="text-bm-green-500 font-display text-lg font-bold tracking-tight">Back Market</span>
+        <span class="text-bm-green-500 font-heading-primary text-lg font-bold tracking-tight">Back Market</span>
         <span class="text-bm-gray-500 text-xs">/ {{ hub.teamName }} Prototypes</span>
       </NuxtLink>
       <nav class="ml-auto flex items-center gap-1">
