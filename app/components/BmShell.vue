@@ -7,11 +7,13 @@ withDefaults(defineProps<{
   tabs?: readonly string[]
   activeTab?: string
   navDotPredicate?: (item: string) => boolean
+  tabDotPredicate?: (tab: string) => boolean
 }>(), {
   pageTitle: undefined,
   tabs: undefined,
   activeTab: undefined,
   navDotPredicate: undefined,
+  tabDotPredicate: undefined,
 })
 
 const emit = defineEmits<{
@@ -66,7 +68,12 @@ const emit = defineEmits<{
 
     <template v-if="pageTitle && tabs">
       <div class="px-8">
-        <h1 class="text-3xl font-bold text-bm-text-hi mt-6 mb-4">{{ pageTitle }}</h1>
+        <div class="flex items-start justify-between gap-4 mt-6 mb-4">
+          <h1 class="text-3xl font-bold text-bm-text-hi">{{ pageTitle }}</h1>
+          <div class="pt-1">
+            <slot name="header-actions" />
+          </div>
+        </div>
 
         <div class="border-b border-bm-border flex items-center">
           <button
@@ -74,7 +81,12 @@ const emit = defineEmits<{
             :key="tab"
             :class="['px-5 py-3 text-sm whitespace-nowrap transition-colors border-b-2 -mb-px', tab === activeTab ? 'font-semibold text-bm-text-hi border-bm-text-hi' : 'font-normal text-bm-text-muted border-transparent hover:text-bm-text-mid hover:border-bm-gray-300']"
             @click="emit('update:activeTab', tab)"
-          >{{ tab }}</button>
+          >
+            <span class="inline-flex items-center gap-1.5">
+              {{ tab }}
+              <span v-if="tabDotPredicate?.(tab)" class="w-2 h-2 rounded-full bg-bm-success flex-shrink-0" />
+            </span>
+          </button>
           <slot name="tabs-extra" />
         </div>
 
