@@ -8,7 +8,7 @@ A code-based prototyping workspace for product designers. Build and share intera
 
 ## Before you start — install the tools
 
-You need three things on your Mac before you can use this. If you've done this before, skip ahead.
+You need a few things on your Mac before you can use this. If you've done this before, skip ahead.
 
 ---
 
@@ -73,6 +73,30 @@ npm install -g @anthropic-ai/claude-code
 ```
 
 Wait for it to finish (it takes 30–60 seconds), then move on.
+
+---
+
+### 4. GitHub CLI
+
+This is what lets Claude publish your hub to a live URL. Without it, setup can't put your hub online.
+
+**Check if you already have it** — paste this into Terminal and press Enter:
+```
+gh --version
+```
+- You see a version number → you already have it, move on to Setup below.
+- You see `command not found` → install it:
+```
+brew install gh
+```
+
+Then connect it to your GitHub account:
+```
+gh auth login
+```
+Choose **GitHub.com**, then **HTTPS**, then **"Login with a web browser"**. It shows you a one-time code and opens GitHub — paste the code, approve, and come back to the Terminal.
+
+> Claude will double-check this during setup, but doing it now means your hub goes live first try.
 
 ---
 
