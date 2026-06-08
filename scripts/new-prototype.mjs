@@ -58,5 +58,18 @@ const meta = {
 `
 
 writeFileSync(dest, content)
-console.log(`Created: app/pages/prototypes/${slug}.vue`)
-console.log(`Register it in app/pages/index.vue → prototypes array.`)
+console.log(`Created: app/pages/prototypes/${slug}.vue\n`)
+console.log(`Register it on the hub — add this to the inProgress array in app/pages/index.vue:\n`)
+console.log(`  {
+    title: '${title}',
+    description: 'One line on what this prototype explores.',
+    author: '${author}',
+    date: '${date}',
+    status: 'In progress',
+    concepts: [
+      { n: 1, name: 'Concept A', pages: ['Home', 'Settings'] },
+    ],
+    scope: 'Where this lives (e.g. Seller back-office)',
+    link: '/prototypes/${slug}',
+    accent: '#1A8E5F',
+  },\n`)

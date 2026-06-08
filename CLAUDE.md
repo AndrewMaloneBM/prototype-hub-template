@@ -66,9 +66,16 @@ Revolve is Back Market's design system. Full guidelines are available from your 
 - `bm-border`, `bm-border-action` — semantic border colours
 - `bm-danger/warning/success/info` — functional colours
 
-**Typography:**
-- `font-display` — GT Super Display (headings)
-- `font-body` — Scto Grotesk A (body/UI)
+**Typography — real Revolve fonts, self-hosted (`@font-face` in `app/assets/css/main.css`, files in `public/fonts/`):**
+- `font-heading-primary` — IvarSoft (serif) — h1 / hero headings
+- `font-heading-secondary` — BMDupletDSP (display sans) — h2 / h3
+- `font-body` — BMDupletTXT (body sans) — all UI text, labels, captions (default)
+
+(`font-display` no longer exists — never use it. The hub landing page `index.vue` intentionally uses a separate DM-font editorial style via Google Fonts; that's a deliberate "cover page" choice, not a token.)
+
+**Icons — Revolve library (402 SVGs in `public/icons/`):**
+- Use `<RevIcon name="IconName" class="w-4 h-4" />` for icons that don't need colour inheritance
+- Keep inline SVG for icons that use `text-*` colour (RevIcon renders an `<img>`, so it can't inherit colour)
 
 **Border radius:**
 - `rounded-bm-xs` (2px), `rounded-bm-sm` (6px), `rounded-bm` (8px), `rounded-bm-lg` (12px)
@@ -87,11 +94,17 @@ app/
   components/
     PrototypeSidebar.vue       ← Reusable concept-switcher sidebar
     BmShell.vue                ← BM back-office shell (header + nav + tabs)
+    RevIcon.vue                ← Revolve icon wrapper — <RevIcon name="IconName" class="w-4 h-4" />
   composables/
     usePrototypeSidebar.ts     ← Sidebar reactive state
-  assets/css/main.css
+  assets/css/main.css          ← @font-face (Revolve fonts) + .btn / .card / .badge classes
+public/
+  bm-logo.svg, bm-avatar.svg, bm-wordmark.svg
+  fonts/                       ← Revolve font files (BMDupletTXT, BMDupletDSP, IvarSoft)
+  icons/                       ← 402 Revolve SVG icons (IconName.svg)
+  .nojekyll                    ← keeps GitHub Pages from dropping the _nuxt/ dir
 scripts/
-  new-prototype.mjs            ← Scaffold a new prototype page
+  new-prototype.mjs            ← Scaffold a new prototype page (prints the hub registration snippet)
   setup.mjs                    ← First-time setup script
 ```
 
@@ -113,10 +126,10 @@ That's it — GitHub Actions picks up the push to `main`, runs `npm run generate
 
 When a user asks to create a new prototype or shares a PRD, take the lead:
 
-1. Run `npm run new-prototype -- "prototype-name"` to scaffold the file
+1. Run `npm run new-prototype -- "prototype-name"` to scaffold the file. It prints a ready-to-paste hub registration snippet (author/date/link pre-filled) — use it in step 4.
 2. Read the PRD (or ask them to paste it) and populate `conceptMeta[]` — concept names, pros, cons, success metrics, which pages each concept touches
-3. Build the shell using `<BmShell>` and wire up `<PrototypeSidebar>` with the concept data
-4. Register it in `app/pages/index.vue` → `inProgress` array
+3. Build the shell using `<BmShell>` and wire up `<PrototypeSidebar>` with the concept data. The scaffold (`_template.vue`) already demonstrates the working patterns (modal, loading, scroll-to-top, sub-states) — extend it rather than starting blank.
+4. Register it in `app/pages/index.vue` → `inProgress` array (paste the snippet from step 1, then fill in description/scope/concepts). The full `Prototype` interface is documented below.
 5. Commit and push with `git add -A && git commit -m "Add [prototype-name]" && git push` — GitHub Actions deploys it
 
 The user should never need to know which commands to run. They share context (PRD, screenshots, goals) and you handle execution.
@@ -197,6 +210,12 @@ Each page in `conceptMeta` can optionally define `subStates`. Rules:
 - Handle `@set-sub-state="onSetSubState"` — reset transient UI, then set the reactive state that corresponds to the requested sub-state.
 - Never use `<Teleport to="body">` for modals. Place them as `absolute inset-0` siblings of the inner scroll div, inside a `relative overflow-hidden` wrapper. See `_template.vue` for the exact structure.
 
+### Optional props (sharing & concept lifecycle)
+
+- `:dropped-concepts="[1, 3]"` — marks rejected concept numbers with a strikethrough + dimmed pill. Keeps killed directions visible for stakeholder context instead of deleting them.
+- `share-mode` — external-facing view: hides the Hub link, adds a Before/After explainer, and expands all pages by default. Pair with a `/share/...` route (see "Sharing" note in the README) so stakeholders get a clean link without the internal hub chrome.
+- `hide-concept-details` — swaps the numbered pills for named concept labels and hides the pros/cons/metric detail zone. Use for single-direction explorations where the concept-comparison framing isn't needed.
+
 ---
 
 ## BmShell
@@ -210,11 +229,30 @@ BM back-office shell — header, nav, sub-tabs. Prop-driven:
   :seller-name="sellerData.sellerName"
   page-title="Money"
   :tabs="tabs"
-  v-model:activeTab="conceptTabs[activeConcept - 1]"
+  v-model:activeTab="activeTab"
+  :tab-dot-predicate="(tab) => tab === 'Activity'"
 >
+  <template #header-actions>
+    <!-- buttons/controls aligned with the page title -->
+  </template>
   <!-- page content -->
 </BmShell>
 ```
+
+Optional:
+- `:tab-dot-predicate="(tab) => boolean"` — green dot on sub-tabs that match (e.g. tabs with new content).
+- `#header-actions` slot — controls rendered to the right of the page title.
+
+---
+
+## Reusable patterns (wired up in `_template.vue`)
+
+The scaffold is a working reference, not a skeleton. These patterns recurred across every real prototype — copy them from `_template.vue`:
+
+- **Sub-state dispatcher** — `activeSubStateId` (a `computed`) + `onSetSubState()` keep the sidebar in sync with prototype state.
+- **`pendingAction` loading** — one ref tracks which button is mid-async; use it to disable the button and show a spinner (`advanceWithDelay()` fakes latency).
+- **`scrollPageToTop()`** — reset the scroll surface on page navigation so reviewers don't land mid-page.
+- **Modal as sibling** — `absolute inset-0` sibling of the scroll div, wrapped in `<Transition>`.
 
 ---
 
